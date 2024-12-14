@@ -1,8 +1,8 @@
 import datetime
+import uuid
 from sqlalchemy import ForeignKey, Integer, String, TIMESTAMP, func
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from sqlalchemy.dialects.postgresql import UUID
-import uuid
 from app.core.database import Base
 
 class User(Base):

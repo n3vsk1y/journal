@@ -6,19 +6,18 @@ from dotenv import load_dotenv
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 ALGORITHM = 'HS256'
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 
 def create_access_token(data: dict):
     payload = {
-        'exp': datetime.now(timezone.utc) + datetime.timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES),
+        'exp': datetime.now(timezone.utc) + timedelta(minutes=30),
         'data': data,
     }
     return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
 
 def create_refresh_token(data: dict):
     payload = {
-        'exp': datetime.now(timezone.utc) + datetime.timedelta(days=30),
+        'exp': datetime.now(timezone.utc) + timedelta(days=30),
         'data': data,
     }
     return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)

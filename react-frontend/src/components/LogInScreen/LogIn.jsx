@@ -25,12 +25,12 @@ const LogInScreen = () => {
 		event.preventDefault()
 		try {
 			const response = await login(username, password)
-			console.log('Response from server:', response) // Debug: Проверка ответа
+			console.log('Response from server:', response)
 			setSuccess(true)
 			setError('')
 		} catch (err) {
-			console.error('Error during slogin:', err)
-			setError(err.message || 'Unknown error occurred')
+			console.error('Error during login:', err)
+			setError(err.detail || 'Unknown error occurred') ['detail']
 			setSuccess(false)
 		}
 	}
@@ -39,7 +39,7 @@ const LogInScreen = () => {
 		<div>
 			<h1>Log In</h1>
 			<form onSubmit={handleLogin}>
-				<div class="input-wrapper">
+				<div className="input-wrapper">
 					<input
 						type="text"
 						placeholder="Username"
@@ -47,9 +47,9 @@ const LogInScreen = () => {
 						onChange={(e) => setUsername(e.target.value)}
 						required
 					/>
-					<span class="focus-border"></span>
+					<span className="focus-border"></span>
 				</div>
-				<div class="input-wrapper">
+				<div className="input-wrapper">
 					<input
 						type="password"
 						placeholder="Password"
@@ -57,7 +57,7 @@ const LogInScreen = () => {
 						onChange={(e) => setPassword(e.target.value)}
 						required
 					/>
-					<span class="focus-border"></span>
+					<span className="focus-border"></span>
 				</div>
 				<button type="submit">Log In</button>
 			</form>

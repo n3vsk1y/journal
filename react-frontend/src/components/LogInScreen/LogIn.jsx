@@ -1,37 +1,30 @@
 import React, { useState } from 'react'
-import './LogIn.css'
+import { useNavigate } from 'react-router-dom'
 import { login } from '../../Api'
+import './LogIn.css'
 
 const LogInScreen = () => {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 	const [error, setError] = useState('')
-	const [success, setSuccess] = useState(false)
-
-	// async function handleLogin(event) {
-	// 	event.preventDefault()
-	// 	try {
-	// 		const response = await login(username, password)
-	// 		localStorage.setItem('token', response.token)
-	// 		setSuccess(true)
-	// 		setError('')
-	// 	} catch (err) {
-	// 		setError(err.message)
-	// 		setSuccess(false)
-	// 	}
-	// }
+	const navigate = useNavigate()
 
 	async function handleLogin(event) {
 		event.preventDefault()
 		try {
 			const response = await login(username, password)
-			console.log('Response from server:', response)
-			setSuccess(true)
-			setError('')
+			localStorage.setItem('access_token', response.access_token)
+			console.log('%c' + 'Success LOGIN', 'color:' + 'green')
+            setError('');
+			navigate('/dashboard')
 		} catch (err) {
 			console.error('Error during login:', err)
-			setError(err.detail || 'Unknown error occurred') ['detail']
-			setSuccess(false)
+            if (Array.isArray(err.detail)) {
+				const messages = err.detail.map((item) => item.msg).join('. ')
+				setError(messages)
+			} else {
+				setError(err.detail?.msg || 'Unknown error occurred.')
+			}
 		}
 	}
 
@@ -62,7 +55,6 @@ const LogInScreen = () => {
 				<button type="submit">Log In</button>
 			</form>
 			{error && <p style={{ color: 'red' }}>{error}</p>}
-			{success && <p style={{ color: 'green' }}>Login successful!</p>}
 		</div>
 	)
 }

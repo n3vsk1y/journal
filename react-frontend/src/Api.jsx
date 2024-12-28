@@ -5,23 +5,29 @@ const apiClient = axios.create({
 	withCredentials: true,
 })
 
+const processedRequests = new Set();
+
 apiClient.interceptors.response.use(
 	(response) => response,
 	async (error) => {
-		const originalRequest = error.config
+		const originalRequest = error.config;
+        console.log(processedRequests)
+        console.log(originalRequest)     
+
+		if (processedRequests.has(originalRequest)) {
+			return Promise.reject(error)
+		}
+
 		if (error.response.status === 401 && !originalRequest._retry) {
-			originalRequest._retry = true
+			originalRequest._retry = true;
+			processedRequests.add(originalRequest)
 
 			try {
-				const { data } = await apiClient.post('/refresh')
-				apiClient.defaults.headers.common[
-					'Authorization'
-				] = `Bearer ${data.access_token}`
-				originalRequest.headers[
-					'Authorization'
-				] = `Bearer ${data.access_token}`
+				const { data } = await apiClient.post('/refresh');
+				apiClient.defaults.headers.common['Authorization'] = `Bearer ${data.access_token}`
+				originalRequest.headers['Authorization'] = `Bearer ${data.access_token}`
 
-				return apiClient(originalRequest)
+				return apiClient(originalRequest);
 			} catch (refreshError) {
 				console.error('Ошибка обновления токена:', refreshError)
 				throw refreshError
@@ -31,12 +37,12 @@ apiClient.interceptors.response.use(
 	}
 )
 
+
+
 export async function login(username, password) {
 	try {
 		const response = await apiClient.post('/login', { username, password })
-		apiClient.defaults.headers.common[
-			'Authorization'
-		] = `Bearer ${response.data.access_token}`
+		apiClient.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`
 		return response.data
 	} catch (error) {
 		throw error.response.data
@@ -50,9 +56,7 @@ export async function signup(email, username, password) {
 			username,
 			password,
 		})
-		apiClient.defaults.headers.common[
-			'Authorization'
-		] = `Bearer ${response.data.access_token}`
+		apiClient.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`
 		return response.data
 	} catch (error) {
 		throw error.response.data

@@ -1,23 +1,31 @@
 import React, { useState } from 'react'
-import './SignUp.css'
+import { useNavigate } from 'react-router-dom'
 import { signup } from '../../Api'
+import './SignUp.css'
 
 const SignUpScreen = () => {
 	const [email, setEmail] = useState('')
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 	const [error, setError] = useState('')
-	const [success, setSuccess] = useState(false)
+	const navigate = useNavigate()
 
 	async function handleSignup(event) {
 		event.preventDefault()
 		try {
-			await signup(email, username, password)
-			setSuccess(true)
+			const response = await signup(email, username, password)
+			localStorage.setItem('access_token', response.access_token)
+			console.log('%c' + 'Success SIGNUP', 'color:' + 'green')
 			setError('')
+			navigate('/dashboard')
 		} catch (err) {
-			setError(err.message)
-			setSuccess(false)
+			console.error('Error during signup:', err)
+			if (Array.isArray(err.detail)) {
+				const messages = err.detail.map((item) => item.msg).join('---')
+				setError(messages)
+			} else {
+				setError(err.detail?.msg || 'Unknown error occurred.')
+			}
 		}
 	}
 
@@ -58,7 +66,6 @@ const SignUpScreen = () => {
 				<button type="submit">Sign Up</button>
 			</form>
 			{error && <p style={{ color: 'red' }}>{error}</p>}
-			{success && (<p style={{ color: 'green' }}>Registration successful!</p>)}
 		</div>
 	)
 }

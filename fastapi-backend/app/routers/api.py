@@ -1,34 +1,30 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, Request
 from app.models.user import User
+from app.models.keys import APIKey
 from app.core.database import get_db
+from app.core.orm import get_user
+from app.schemas.auth import LogInSchema, SignUpSchema
+from app.schemas.key import APIKeySchema
+from sqlalchemy import or_
 from sqlalchemy.orm import Session
 from sqlalchemy.future import select
-from app.schemas.auth import LogInSchema, SignUpSchema
-from passlib.context import CryptContext
+
+from app.routers.hash import hash_password, verify_password
 
 from app.routers.jwt_tokens import create_access_token, create_refresh_token, verify_token
 from fastapi.responses import JSONResponse
-from fastapi import Request
 
 router = APIRouter(prefix='/api', tags=['API'])
-
-pwd_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
-
-
-def hash_password(password: str) -> str:
-    return pwd_context.hash(password)
-
-
-def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
 
 
 @router.post('/login')
 async def login(data: LogInSchema, db: Session = Depends(get_db)):
-    result = await db.execute(select(User).where(User.username == data.username))  
+    query = select(User).where(User.username == data.username)
+    result = await db.execute(query)
     user = result.scalars().first()
     if not user or not verify_password(data.password, user.hashed_password):
-        raise HTTPException(status_code=400, detail='Invalid username or password')
+        raise HTTPException(
+            status_code=401, detail='Invalid username or password')
 
     access_token = create_access_token(
         data={'user_id': str(user.id), 'username': user.username}
@@ -55,10 +51,11 @@ async def login(data: LogInSchema, db: Session = Depends(get_db)):
 
 @router.post('/signup')
 async def signup(data: SignUpSchema, db: Session = Depends(get_db)):
-    result = await db.execute(select(User).where(User.username == data.username))  
+    query = select(User).where(or_(User.username == data.username, User.email == data.email))
+    result = await db.execute(query)
     user = result.scalars().first()
     if user:
-        raise HTTPException(status_code=400, detail='User already exists')
+        raise HTTPException(status_code=401, detail='User already exists')
 
     hashed_password = hash_password(data.password)
     new_user = User(email=data.email, username=data.username,
@@ -95,7 +92,7 @@ async def refresh_token(request: Request):
     refresh_token = request.cookies.get('refresh_token')
     if not refresh_token:
         raise HTTPException(status_code=401, detail='Refresh token not found')
-    
+
     try:
         payload = verify_token(refresh_token)
         user_data = payload['data']
@@ -103,3 +100,13 @@ async def refresh_token(request: Request):
         return {'access_token': access_token, 'token_type': 'bearer'}
     except Exception as e:
         raise HTTPException(status_code=401, detail=str(e))
+
+
+@router.get("/check_api_keys/")
+async def check_api_keys(db: Session = Depends(get_db), current_user = Depends(get_user)):
+    query = select(APIKey).where(APIKey.user_id==current_user.id)
+    result = await db.execute(query)
+    api_keys = result.scalars().first()
+    if not api_keys:
+        return {"exists": False}
+    return {"exists": True, "api_key": api_keys.api_key, "api_secret": api_keys.api_secret}

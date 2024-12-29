@@ -1,41 +1,37 @@
 import axios from 'axios'
 
+
 const apiClient = axios.create({
 	baseURL: 'http://127.0.0.1:8000/api',
 	withCredentials: true,
 })
 
-const processedRequests = new Set();
-
 apiClient.interceptors.response.use(
-	(response) => response,
-	async (error) => {
-		const originalRequest = error.config;
-        console.log(processedRequests)
-        console.log(originalRequest)     
+    (response) => response,
+    async (error) => {
+        const originalRequest = error.config
 
-		if (processedRequests.has(originalRequest)) {
-			return Promise.reject(error)
-		}
+        if (originalRequest.url.includes('/refresh')) {
+            return Promise.reject(error)
+        }
 
-		if (error.response.status === 401 && !originalRequest._retry) {
-			originalRequest._retry = true;
-			processedRequests.add(originalRequest)
+        if (error.response.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true
 
-			try {
-				const { data } = await apiClient.post('/refresh');
-				apiClient.defaults.headers.common['Authorization'] = `Bearer ${data.access_token}`
-				originalRequest.headers['Authorization'] = `Bearer ${data.access_token}`
+            try {
+                const { data } = await apiClient.post('/refresh')
+                apiClient.defaults.headers.common['Authorization'] = `Bearer ${data.access_token}`
+                originalRequest.headers['Authorization'] = `Bearer ${data.access_token}`
+                return apiClient(originalRequest)
+            } catch (refreshError) {
+                console.error('Ошибка обновления токена:', refreshError)
+                return Promise.reject(refreshError)
+            }
+        }
+        return Promise.reject(error)
+    }
+);
 
-				return apiClient(originalRequest);
-			} catch (refreshError) {
-				console.error('Ошибка обновления токена:', refreshError)
-				throw refreshError
-			}
-		}
-		return Promise.reject(error)
-	}
-)
 
 
 

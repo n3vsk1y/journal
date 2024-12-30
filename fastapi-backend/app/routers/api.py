@@ -24,7 +24,7 @@ async def login(data: LogInSchema, db: Session = Depends(get_db)):
     user = result.scalars().first()
     if not user or not verify_password(data.password, user.hashed_password):
         raise HTTPException(
-            status_code=401, detail='Invalid username or password')
+            status_code=404, detail='Invalid username or password')
 
     access_token = create_access_token(
         data={'user_id': str(user.id), 'username': user.username}
@@ -55,7 +55,7 @@ async def signup(data: SignUpSchema, db: Session = Depends(get_db)):
     result = await db.execute(query)
     user = result.scalars().first()
     if user:
-        raise HTTPException(status_code=401, detail='User already exists')
+        raise HTTPException(status_code=404, detail='User already exists')
 
     hashed_password = hash_password(data.password)
     new_user = User(email=data.email, username=data.username,

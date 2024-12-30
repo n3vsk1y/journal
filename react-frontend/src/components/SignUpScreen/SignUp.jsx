@@ -24,7 +24,7 @@ const SignUpScreen = () => {
 				const messages = err.detail.map((item) => item.msg).join('---')
 				setError(messages)
 			} else {
-				setError(err.detail?.msg || 'Unknown error occurred.')
+				setError(err.detail || 'Unknown error occurred.')
 			}
 		}
 	}
@@ -63,9 +63,11 @@ const SignUpScreen = () => {
 					/>
 					<span class="focus-border"></span>
 				</div>
+				<div className="input-wrapper">
+                    <span>{error}</span>
+                </div>
 				<button type="submit">Sign Up</button>
 			</form>
-			{error && <p style={{ color: 'red' }}>{error}</p>}
 		</div>
 	)
 }

@@ -26,6 +26,7 @@ const Header = () => {
                     src={alt_url}
                     alt='User Avatar'
                     className='header-avatar'
+                    onClick={() => navigate('/profile')}
                 />
                 <button onClick={handleLogout} className='header-button user-button'>Выход</button>
             </div>

@@ -1,35 +1,34 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { login } from '../../Api';
-import './LogIn.css';
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { login } from '../../Api'
 
 const LogInScreen = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const navigate = useNavigate();
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [error, setError] = useState('')
+    const navigate = useNavigate()
 
     async function handleLogin(event) {
         event.preventDefault();
         try {
-            const response = await login(username, password);
-            localStorage.setItem('access_token', response.access_token);
-            console.log('%c' + 'Success LOGIN', 'color:' + 'green');
-            setError('');
-            navigate('/dashboard');
+            const response = await login(username, password)
+            localStorage.setItem('access_token', response.access_token)
+            console.log('%c' + 'Success LOGIN', 'color:' + 'green')
+            setError('')
+            navigate('/dashboard')
         } catch (err) {
-            console.error('Error during login:', err);
+            console.error('Error during login:', err)
             if (Array.isArray(err.detail)) {
-                const messages = err.detail.map((item) => item.msg).join('. ');
-                setError(messages);
+                const messages = err.detail.map((item) => item.msg).join('. ')
+                setError(messages)
             } else {
-                setError(err.detail || 'Unknown error occurred.');
+                setError(err.detail || 'Unknown error occurred.')
             }
         }
     }
 
     return (
-        <div>
+        <div className="content-div">
             <h1>Log In</h1>
             <form onSubmit={handleLogin}>
                 <div className="input-wrapper">
@@ -52,11 +51,13 @@ const LogInScreen = () => {
                     />
                     <span className="focus-border"></span>
                 </div>
-                <div className="input-wrapper">
-                    <span>{error}</span>
-                </div>
-                <button type="submit">Log In</button>
+
+                <button className="submit" type="submit">Log In</button>
             </form>
+            <button className="back-button" onClick={() => navigate('/')} >back</button>
+            <div className="input-wrapper">
+                <span>{error}</span>
+            </div>
         </div>
     );
 };

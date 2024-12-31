@@ -55,7 +55,7 @@ async def signup(data: SignUpSchema, db: Session = Depends(get_db)):
     result = await db.execute(query)
     user = result.scalars().first()
     if user:
-        raise HTTPException(status_code=404, detail='User already exists')
+        raise HTTPException(status_code=409, detail='User already exists')
 
     hashed_password = hash_password(data.password)
     new_user = User(email=data.email, username=data.username,

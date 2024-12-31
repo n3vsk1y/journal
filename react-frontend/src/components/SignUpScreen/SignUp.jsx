@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { signup } from '../../Api'
-import './SignUp.css'
 
 const SignUpScreen = () => {
 	const [email, setEmail] = useState('')
@@ -30,7 +29,7 @@ const SignUpScreen = () => {
 	}
 
 	return (
-		<div>
+		<div className="content-div">
 			<h1>Sign Up</h1>
 			<form onSubmit={handleSignup}>
 				<div class="input-wrapper">
@@ -63,11 +62,12 @@ const SignUpScreen = () => {
 					/>
 					<span class="focus-border"></span>
 				</div>
-				<div className="input-wrapper">
-                    <span>{error}</span>
-                </div>
-				<button type="submit">Sign Up</button>
-			</form>
+                <button className="submit" type="submit">Sign Up</button>
+            </form>
+            <button className="back-button" onClick={() => navigate('/')} >back</button>
+            <div className="input-wrapper">
+                <span>{error}</span>
+            </div>
 		</div>
 	)
 }

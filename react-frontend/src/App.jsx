@@ -10,8 +10,8 @@ import Trades from './components/Trades/Trades'
 import Resources from './components/Resources/Resources'
 import Profile from './components/Profile/Profile'
 
-import { UserProvider } from './UserContext'
-import ProtectedRoute from './ProtectedRoute'
+import { UserProvider } from './providers/UserContext'
+import ProtectedRoute from './providers/ProtectedRoute'
 
 function App() {
     return (

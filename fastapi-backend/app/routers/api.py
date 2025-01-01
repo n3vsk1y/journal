@@ -26,12 +26,16 @@ async def login(data: LogInSchema, db: Session = Depends(get_db)):
         raise HTTPException(
             status_code=404, detail='Invalid username or password')
 
-    access_token = create_access_token(
-        data={'user_id': str(user.id), 'username': user.username}
-    )
-    refresh_token = create_refresh_token(
-        data={'user_id': str(user.id), 'username': user.username}
-    )
+    data={
+        'user_id': str(user.id),
+        'email': user.email, 
+        'username': user.username,
+        'bio': user.bio,
+        'avatar_url': user.avatar_url,
+    }
+
+    access_token = create_access_token(data=data)
+    refresh_token = create_refresh_token(data=data)
 
     response = JSONResponse(content={
         'access_token': access_token,
@@ -64,12 +68,16 @@ async def signup(data: SignUpSchema, db: Session = Depends(get_db)):
     await db.commit()
     await db.refresh(new_user)
 
-    access_token = create_access_token(
-        data={'user_id': str(new_user.id), 'username': new_user.username}
-    )
-    refresh_token = create_refresh_token(
-        data={'user_id': str(new_user.id), 'username': new_user.username}
-    )
+    data={
+        'user_id': str(new_user.id),
+        'email': new_user.email, 
+        'username': new_user.username,
+        'bio': new_user.bio,
+        'avatar_url': new_user.avatar_url,
+    }
+
+    access_token = create_access_token(data=data)
+    refresh_token = create_refresh_token(data=data)
 
     response = JSONResponse(content={
         'access_token': access_token,

@@ -9,7 +9,7 @@ const LogInScreen = () => {
     const navigate = useNavigate()
 
     async function handleLogin(event) {
-        event.preventDefault();
+        event.preventDefault()
         try {
             const response = await login(username, password)
             localStorage.setItem('access_token', response.access_token)
@@ -52,14 +52,20 @@ const LogInScreen = () => {
                     <span className="focus-border"></span>
                 </div>
 
-                <button className="submit" type="submit">Log In</button>
+                <button className="submit glow-button" type="submit">
+                    Log In
+                </button>
             </form>
-            <button className="back-button" onClick={() => navigate('/')} >back</button>
+            <button className="back-button" onClick={() => navigate('/')}>
+                back
+                <span className="right"></span>
+                <span className="left"></span>
+            </button>
             <div className="input-wrapper">
                 <span>{error}</span>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default LogInScreen;
+export default LogInScreen

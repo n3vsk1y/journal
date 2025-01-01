@@ -2,11 +2,11 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import './Header.css'
 import alt_url from '../../assets/react.svg'
-import { useUser } from '../../UserContext'
+import { useUser } from '../../providers/UserContext'
 
 const Header = () => {
-    const navigate = useNavigate();
-    const { user } = useUser();
+    const navigate = useNavigate()
+    const { user } = useUser()
 
     const handleLogout = () => {
         localStorage.removeItem('access_token')

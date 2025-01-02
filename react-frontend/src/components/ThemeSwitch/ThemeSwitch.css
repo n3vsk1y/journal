@@ -1,11 +1,3 @@
-.wrapper {
-    position: absolute;
-    width: auto;
-    bottom: 0;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
 #hide-checkbox {
     opacity: 0;
     height: 0;
@@ -18,8 +10,7 @@
     display: inline-block;
     width: 200px;
     height: 100px;
-    /* background: #211042; */
-    background: #646cff;
+    background: #08317c;
     border-radius: 50px;
     transition: 500ms;
     overflow: hidden;
@@ -299,15 +290,4 @@
     100% {
         transform: translateX(-2px);
     }
-}
-
-p {
-    text-align: center;
-    letter-spacing: 15px;
-    background: #34495e;
-    color: #fff;
-}
-
-p.morning {
-    background: #e67e22;
 }

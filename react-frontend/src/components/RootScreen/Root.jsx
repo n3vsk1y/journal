@@ -11,10 +11,10 @@ const RootScreen = () => {
         <>
             <div>
                 <div className="logo-wrapper">
-                    <h1 className="neon-button">Welcome Logo</h1>
-                    <h1 className="neon-text">Welcome Logo</h1>
+                    <h1 className="neon-button">Welcome!</h1>
+                    <h1 className="neon-text">Welcome!</h1>
                 </div>
-                <div id="btns">
+                <div className="root-button-wrapper">
                     <button
                         className="root-button glow-button"
                         onClick={() => navigate('/login')}
@@ -28,8 +28,12 @@ const RootScreen = () => {
                         Sign Up
                     </button>
                 </div>
+                {/* <div className="substrate-wrapper">
+                    <p className="substrate">Log In</p>
+                    <p className="substrate">Log In</p>
+                </div> */}
             </div>
-            <div className="switch-wrapper">
+            <div className="root-switch-wrapper">
                 <ThemeSwitch />
             </div>
         </>

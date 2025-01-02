@@ -48,7 +48,6 @@
 .bio {
     font-size: 1rem;
     line-height: 1.5;
-    color: #5e5e5e;
 }
 
 .settings {
@@ -65,11 +64,20 @@
     transition: box-shadow 1.5s cubic-bezier(0.19, 1, 0.22, 1), border-top 1.5s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-.settings:hover {    
+/* .settings:hover {    
     border: 0;
     border-top: 1px solid #646cff;
     box-shadow: 
         0 0 20px #646cffc9,
         0 0 40px #646cff7e,
         0 0 60px #646cff21;
+} */
+
+.settings:hover {    
+    border: 0;
+    border-top: 1px solid #ffffff42;
+    box-shadow: 
+        0 0 20px #ffffff63,
+        0 0 40px #108dac7e,
+        0 0 60px #00c3ff;
 }

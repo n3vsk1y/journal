@@ -5,7 +5,7 @@ import { useUser } from '../../providers/UserContext'
 
 const Profile = () => {
     const f_user = {
-        avatarUrl:
+        avatar_url:
             'https://avatars.mds.yandex.net/i?id=539fc1711db30f5c1ecf5c445dbdf2ff_sr-12814755-images-thumbs&n=13',
         username: 'example',
         email: 'user@example.com',
@@ -22,14 +22,17 @@ const Profile = () => {
             <main className="profile-content">
                 <div className="profile-container">
                     <div className="avatar">
-                        <img src={f_user.avatarUrl} alt="Avatar" />
+                        <img 
+                            src={user.avatar_url}
+                            alt="Avatar"
+                        />
                     </div>
                     <div className="profile-info">
                         <p className="username">{user.username}</p>
                         <p className="email">{user.email}</p>
                         <p
                             className="bio"
-                            style={{ color: user.bio ? 'white' : 'gray' }}
+                            style={{ color: user.bio ? 'white' : 'var(--bg-text)' }}
                         >
                             {user.bio || 'Напишите что-нибудь о себе...'}
                         </p>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import './Header.css'
-import alt_url from '../../assets/react.svg'
+import ThemeSwitch from '../ThemeSwitch/ThemeSwitch'
 import { useUser } from '../../providers/UserContext'
 
 const Header = () => {
@@ -23,11 +23,14 @@ const Header = () => {
             <div className='user'>
                 <button onClick={() => navigate('/profile')} className='header-button user-button'>{user.username}</button>
                 <img 
-                    src={alt_url}
-                    alt='User Avatar'
+                    src={user.avatar_url}
+                    alt='mini_avatar'
                     className='header-avatar'
                     onClick={() => navigate('/profile')}
                 />
+                <div className="header-switch-wrapper">
+                    <ThemeSwitch />
+                </div>
                 <button onClick={handleLogout} className='header-button user-button'>Выход</button>
             </div>
         </header>

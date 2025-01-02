@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { login } from '../../Api'
+import ThemeSwitch from '../ThemeSwitch/ThemeSwitch'
 
 const LogInScreen = () => {
     const [username, setUsername] = useState('')
@@ -63,6 +64,9 @@ const LogInScreen = () => {
             </button>
             <div className="input-wrapper">
                 <span>{error}</span>
+            </div>
+            <div className="root-switch-wrapper">
+                <ThemeSwitch />
             </div>
         </div>
     )

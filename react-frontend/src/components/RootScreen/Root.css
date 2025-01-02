@@ -18,7 +18,7 @@
 .neon-text {
     position: absolute;
     top: 0.25rem;
-    width: 27rem;
+    width: 25rem;
     font-size: 3.2rem;
     text-decoration: none;
     color: #fff;
@@ -27,7 +27,7 @@
 
 .neon-button {
     position: relative;
-    width: 27rem;
+    width: 20rem;
     font-size: 3.2rem;
     text-decoration: none;
     color: var(--logo-color);
@@ -47,11 +47,11 @@
     content: '';
     position: absolute;
     background: var(--logo-color);
-    top: 170%;
+    top: 190%;
     left: 0;
     width: 100%;
     height: 130%;
-    transform: perspective(1em) rotateX(15deg) scale(1.5, 0.45);
+    transform: perspective(1em) rotateX(15deg) scale(1.8, 0.45);
     filter: blur(1em);
     opacity: 0.7;
 }
@@ -68,7 +68,7 @@
     transition: opacity 0.5s ease;
 }
 
-.neon-button:hover,
+/* .neon-button:hover,
 .neon-button:focus {
     background-color: var(--logo-color);
     color: var(--main-text-color);
@@ -78,7 +78,7 @@
 .neon-button:hover::before,
 .neon-button:hover::after {
     opacity: 1;
-}
+} */
 
 @keyframes neon-flicker {
     0% {
@@ -130,18 +130,60 @@
 
 /* ----------------------------------------------- */
 
-#btns {
+.root-button-wrapper {
     position: absolute;
     width: auto;
     top: 45%;
     left: 50%;
     text-align: center;
     z-index: 1;
-    transform: translate(-50%, -50%) perspective(1em) rotateX(4deg) scale(1.3, 0.7);
+    transform: translate(-50%, -50%) perspective(1em) rotateX(4.5deg) scale(1.3, 0.8);
 }
 
 .root-button {
+    width: 12rem;
+    height: 3rem;
     margin: 1rem;
+}
+
+/* .root-button::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 2px solid red;
+} */
+
+.substrate-wrapper {
+    position: absolute;
+    width: auto;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid red;
+
+    z-index: -1;
+}
+
+.substrate {
+    width: 12rem;
+    height: 3rem;
+    text-align: center;
+
+    margin: 1rem;
+
+    /* transform: translate(-50%, -50%) perspective(1em) rotateX(4.5deg) scale(1.3, 0.8); */
+    border: 3px solid blue;
+}
+
+.root-switch-wrapper {
+    position: absolute;
+    width: auto;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .content-div {

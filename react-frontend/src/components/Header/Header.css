@@ -44,7 +44,7 @@ nav {
 	left: 0;
 	width: 0;
 	height: 2px;
-	background-color: #646cff;
+	background-color: var(--first-color);
 	transition: width 0.5s ease;
 }
 
@@ -64,6 +64,15 @@ nav {
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
+}
+
+.header-switch-wrapper {
+	position: relative;
+	right: 0;
+	margin: -4rem;
+	padding: 0;
+	width: auto;
+	transform: scale(0.25);
 }
 
 

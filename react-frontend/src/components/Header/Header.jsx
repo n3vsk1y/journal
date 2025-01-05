@@ -3,10 +3,15 @@ import { useNavigate } from 'react-router-dom'
 import './Header.css'
 import ThemeSwitch from '../ThemeSwitch/ThemeSwitch'
 import { useUser } from '../../providers/UserContext'
+import Loading from '../Loading/Loading'
 
 const Header = () => {
     const navigate = useNavigate()
     const { user } = useUser()
+
+    if (!user) {
+        return <Loading />
+    }
 
     const handleLogout = () => {
         localStorage.removeItem('access_token')
@@ -19,6 +24,7 @@ const Header = () => {
                 <button className='header-button' onClick={() => navigate('/dashboard')}>Дашборд</button>
                 <button className='header-button' onClick={() => navigate('/trades')}>Сделки</button>
                 <button className='header-button' onClick={() => navigate('/resources')}>Полезные материалы</button>
+                <button className='header-button' onClick={() => navigate('/load')}>loading</button>
             </nav>
             <div className='user'>
                 <button onClick={() => navigate('/profile')} className='header-button user-button'>{user.username}</button>

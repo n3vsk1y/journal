@@ -16,7 +16,7 @@ const LogInScreen = () => {
             localStorage.setItem('access_token', response.access_token)
             console.log('%c' + 'Success LOGIN', 'color:' + 'green')
             setError('')
-            navigate('/dashboard')
+            navigate('/loading')
         } catch (err) {
             console.error('Error during login:', err)
             if (Array.isArray(err.detail)) {

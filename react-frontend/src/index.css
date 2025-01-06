@@ -24,11 +24,13 @@
     --gradient-color-2: #3b80ff2c;
 
     --bg-text: #5e5e5e;
+
+    --input-bg: #030e22;
 }
 
 [theme-mode="light"] {
     --main-text-color: #ffffff;
-    --main-bg-color: #18657c;
+    --main-bg-color: #1a89a5;
     --first-color: #00c3ff;
     --second-color: #2c2c2c;
     --logo-color: #ffffff;
@@ -38,6 +40,8 @@
     --gradient-color-2: transparent;
 
     --bg-text: #a7a7a7;
+
+    --input-bg: #187c96;
 }
 
 * {
@@ -136,8 +140,9 @@ input {
     display: block;
     border: 0;
     padding: 0.5rem 0.5rem;
-    background: #1d1d1d;
+    background: var(--input-bg);
     font-size: 1rem;
+    border-radius: 5px;
 }
 
 input:focus {

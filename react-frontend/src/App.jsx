@@ -95,14 +95,14 @@ function AppRotes() {
                 }
             />
             <Route
-                path="/load"
+                path="/loading"
                 element={
-                    <ProtectedRoute>
+                    <>
                         <Helmet>
                             <title>Загрузка...</title>
                         </Helmet>
                         <Loading />
-                    </ProtectedRoute>
+                    </>
                 }
             />
         </Routes>

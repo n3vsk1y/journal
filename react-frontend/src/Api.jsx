@@ -32,9 +32,6 @@ apiClient.interceptors.response.use(
     }
 );
 
-
-
-
 export async function login(username, password) {
 	try {
 		const response = await apiClient.post('/login', { username, password })

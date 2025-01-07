@@ -56,6 +56,19 @@ export async function signup(email, username, password) {
 	}
 }
 
+export async function setapikeys(apikey, apisecret) {
+	try {
+		const response = await apiClient.post('/signup', {
+			apikey,
+            apisecret,
+		})
+		apiClient.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`
+		return response.data
+	} catch (error) {
+		throw error.response.data
+	}
+}
+
 export function logout() {
 	delete apiClient.defaults.headers.common['Authorization']
 }

@@ -101,7 +101,7 @@ function AppRotes() {
                         <Helmet>
                             <title>Загрузка...</title>
                         </Helmet>
-                        <Loading />
+                        <Loading endpoint="/dashboard"/>
                     </>
                 }
             />

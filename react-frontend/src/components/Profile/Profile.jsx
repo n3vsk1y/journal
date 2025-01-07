@@ -1,25 +1,41 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Header from '../Header/Header'
 import './Profile.css'
 import { useUser } from '../../providers/UserContext'
 import Settings from '../Settings/Settings'
+import Loading from '../Loading/Loading'
 
 const Profile = () => {
-	const f_user = {
-		avatar_url:
-			'https://avatars.mds.yandex.net/i?id=539fc1711db30f5c1ecf5c445dbdf2ff_sr-12814755-images-thumbs&n=13',
-		username: 'example',
-		email: 'user@example.com',
-		bio: 'Начинающий крипто-трейдер из России, мечтает заработать дахуя бабла и попасть в топ самых богатых бауманцев.',
-		bbio: 'Начинающий крипто-трейдер из России, мечтает заработать дахуя бабла и попасть в топ самых богатых бауманцев. Начинающий крипто-трейдер из России, мечтает заработать дахуя бабла и попасть в топ самых богатых бауманцев. Начинающий крипто-трейдер из России, мечтает заработать дахуя бабла и попасть в топ самых богатых бауманцев. Начинающий крипто-трейдер из России, мечтает заработать дахуя бабла и попасть в топ самых богатых бауманцев. Начинающий крипто-трейдер из России, мечтает заработать дахуя бабла и попасть в топ самых богатых бауманцев.',
-	}
+    const navigate = useNavigate()
 	const { user } = useUser()
-
+    const [isLoading, setIsLoading] = useState(true)
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false)
 
 	const toggleSettings = () => {
 		setIsSettingsOpen(!isSettingsOpen)
 	}
+
+	useEffect(() => {
+		if (user) {
+			setIsLoading(false)
+		} else {
+			const savedUserData = localStorage.getItem('user')
+			if (savedUserData) {
+				setIsLoading(false)
+			} else {
+				setIsLoading(true)
+			}
+		}
+	}, [user])
+
+    if (isLoading) {
+        return <Loading endpoint="/profile" />
+    }
+
+    if (!user && !localStorage.getItem('user')) {
+        navigate('/login')
+    }
 
 	return (
 		<div>

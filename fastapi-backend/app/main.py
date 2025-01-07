@@ -23,5 +23,9 @@ app.add_middleware(
                    "Authorization"],
 )
 
+@app.get("/")
+def read_root():
+    return {"App": "Started"}
+
 app.include_router(user.router)
 app.include_router(api.router)

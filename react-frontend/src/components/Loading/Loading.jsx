@@ -2,12 +2,12 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './Loading.scss'
 
-const Loading = () => {
+const Loading = ({ endpoint }) => {
 	const navigate = useNavigate()
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
-			navigate('/dashboard')
+			navigate(endpoint)
             location.reload()
 		}, 3000)
 

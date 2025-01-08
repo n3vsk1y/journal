@@ -6,7 +6,6 @@ from app.core.database import get_db
 from app.routers.jwt_tokens import verify_token
 from app.models.user import User
 
-
 token_auth_scheme = HTTPBearer()
 
 async def get_user(credentials: HTTPAuthorizationCredentials = Depends(token_auth_scheme), db: Session = Depends(get_db)):

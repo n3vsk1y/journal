@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta, timezone
 from fastapi import APIRouter, HTTPException, Depends, Request
 from app.models.user import User
 from app.models.keys import APIKey
@@ -42,12 +43,17 @@ async def login(data: LogInSchema, db: Session = Depends(get_db)):
         'token_type': 'bearer',
     })
 
+    expires = datetime.now(timezone.utc) + timedelta(days=30)
+
     response.set_cookie(
         key="refresh_token",
         value=refresh_token,
         httponly=True,
         secure=True,
-        samesite="Strict",
+        samesite="None",
+        max_age=30 * 24 * 60 * 60, # кука живет 30 дней
+        expires=expires,
+        path="/",
     )
 
     return response
@@ -84,12 +90,17 @@ async def signup(data: SignUpSchema, db: Session = Depends(get_db)):
         'token_type': 'bearer',
     })
 
+    expires = datetime.now(timezone.utc) + timedelta(days=30)
+
     response.set_cookie(
         key="refresh_token",
         value=refresh_token,
         httponly=True,
         secure=True,
-        samesite="Strict",
+        samesite="None",
+        max_age=30 * 24 * 60 * 60, # кука живет 30 дней
+        expires=expires,
+        path="/",
     )
 
     return response
@@ -110,11 +121,28 @@ async def refresh_token(request: Request):
         raise HTTPException(status_code=401, detail=str(e))
 
 
-@router.get("/check_api_keys/")
+@router.get("/check_api_keys")
 async def check_api_keys(db: Session = Depends(get_db), current_user = Depends(get_user)):
     query = select(APIKey).where(APIKey.user_id==current_user.id)
     result = await db.execute(query)
     api_keys = result.scalars().first()
     if not api_keys:
-        return {"exists": False}
-    return {"exists": True, "api_key": api_keys.api_key, "api_secret": api_keys.api_secret}
+        return {"exist": False}
+    return {"exist": True, "api_key": api_keys.api_key, "api_secret": api_keys.api_secret}
+
+
+@router.post("/setapikeys")
+async def save_settings(keys: APIKeySchema, db: Session = Depends(get_db), current_user = Depends(get_user)):
+    try:
+        is_exist = await check_api_keys(db=db, current_user=current_user)
+        if is_exist['exist']:
+            return {"message": "Keys already exist"}
+
+        new_keys = APIKey(user_id=current_user.id, api_key=keys.apikey, api_secret=keys.apisecret)
+        db.add(new_keys)
+        await db.commit()
+        await db.refresh(new_keys)
+
+        return {"message": "success"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to save settings: {e}")

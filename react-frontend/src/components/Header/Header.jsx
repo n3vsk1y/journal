@@ -24,7 +24,6 @@ const Header = () => {
                 <button className='header-button' onClick={() => navigate('/dashboard')}>Дашборд</button>
                 <button className='header-button' onClick={() => navigate('/trades')}>Сделки</button>
                 <button className='header-button' onClick={() => navigate('/resources')}>Полезные материалы</button>
-                <button className='header-button' onClick={() => navigate('/load')}>loading</button>
             </nav>
             <div className='user'>
                 <button onClick={() => navigate('/profile')} className='header-button user-button'>{user.username}</button>

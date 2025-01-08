@@ -12,7 +12,7 @@ ALGORITHM = 'HS256'
 
 def create_access_token(data: dict):
     payload = {
-        'exp': datetime.now(timezone.utc) + timedelta(minutes=30),
+        'exp': datetime.now(timezone.utc) + timedelta(minutes=100),
         'data': data,
     }
     return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)

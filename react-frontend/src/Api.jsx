@@ -30,7 +30,7 @@ apiClient.interceptors.response.use(
         }
         return Promise.reject(error)
     }
-);
+)
 
 export async function login(username, password) {
 	try {
@@ -58,12 +58,16 @@ export async function signup(email, username, password) {
 
 export async function setapikeys(apikey, apisecret) {
 	try {
-		const response = await apiClient.post('/signup', {
-			apikey,
-            apisecret,
-		})
-		apiClient.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`
-		return response.data
+        const token = localStorage.getItem('access_token')
+		const response = await apiClient.post('/setapikeys', {
+                apikey,
+                apisecret,
+		    }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            })
+		return response
 	} catch (error) {
 		throw error.response.data
 	}
@@ -71,4 +75,5 @@ export async function setapikeys(apikey, apisecret) {
 
 export function logout() {
 	delete apiClient.defaults.headers.common['Authorization']
+    localStorage.removeItem('access_token')
 }

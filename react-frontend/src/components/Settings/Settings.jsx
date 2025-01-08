@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { setapikeys } from '../../Api'
 import './Settings.scss'
 
 const Settings = ({ isOpen, onClose }) => {
@@ -6,6 +7,7 @@ const Settings = ({ isOpen, onClose }) => {
 		apikey: '',
 		apisecret: '',
 	})
+    const [key_error, setError] = useState('')
 
 	const handleInputChange = (e) => {
 		const { name, value } = e.target
@@ -14,34 +16,37 @@ const Settings = ({ isOpen, onClose }) => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
-        console.log('Ключи сохранены')
 
-		// try {
-		// 	const response = await fetch('/api/settings', {
-		// 		method: 'POST',
-		// 		headers: { 'Content-Type': 'application/json' },
-		// 		body: JSON.stringify(formData),
-		// 	})
-
-		// 	if (response.ok) {
-		// 		alert('Настройки сохранены!')
-		// 		onClose()
-		// 	} else {
-		// 		const errorData = await response.json()
-		// 		alert(`Ошибка: ${errorData.message}`)
-		// 	}
-		// } catch (error) {
-		// 	console.error('Ошибка при сохранении настроек:', error)
-		// 	alert('Ошибка соединения с сервером.')
-		// }
+		try {
+			const response = await setapikeys(
+				formData.apikey,
+				formData.apisecret
+			)
+			if (response.data.message === 'success') {
+                setError('')
+				onClose()
+			} else if (response.data.message === 'Keys already exist') {
+                setError('Ключи уже существуют')
+			} else {
+                setError(response.data.message || 'Unknown error occurred')
+            }
+		} catch (error) {
+			console.error('Ошибка при сохранении ключей:', error)
+		}
 	}
+
+    const handleClose = (e) => {
+        e.preventDefault()
+        setError('')
+        onClose()
+    }
 
 	if (!isOpen) return null
 
 	return (
 		<div className={`modal-overlay ${isOpen ? 'active' : ''}`}>
 			<div className="modal-content">
-				<button className="close-button" onClick={onClose}>
+				<button className="close-button" onClick={handleClose}>
 					&times;
 				</button>
 				<h2>Настройки</h2>
@@ -67,6 +72,9 @@ const Settings = ({ isOpen, onClose }) => {
 							onChange={handleInputChange}
 							required
 						/>
+					</div>
+					<div className="input-wrapper">
+						<span>{key_error}</span>
 					</div>
 					<button type="submit" className="glow-button">
 						Сохранить

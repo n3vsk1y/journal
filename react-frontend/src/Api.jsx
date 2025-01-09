@@ -56,7 +56,7 @@ export async function signup(email, username, password) {
 	}
 }
 
-export async function setbio(bio) {
+export async function setBio(bio) {
     try {
         const token = localStorage.getItem('access_token')
 		const response = await apiClient.post('/setbio', { new_bio: bio.new_bio }, {
@@ -70,7 +70,7 @@ export async function setbio(bio) {
 	}
 }
 
-export async function setapikeys(apikey, apisecret) {
+export async function setApiKeys(apikey, apisecret) {
 	try {
         const token = localStorage.getItem('access_token')
 		const response = await apiClient.post('/setapikeys', {
@@ -85,6 +85,38 @@ export async function setapikeys(apikey, apisecret) {
 	} catch (error) {
 		throw error.response.data
 	}
+}
+
+export async function delApiKeys() {
+	try {
+        const token = localStorage.getItem('access_token')
+		const response = await apiClient.post('/delapikeys', null, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            })
+		return response
+	} catch (error) {
+		throw error.response.data
+	}
+}
+
+export async function getTrades(symbol, start_time, end_time) {
+    try {
+        const token = localStorage.getItem('access_token')
+        const response = await apiClient.post('/gettrades', {
+            symbol,
+            start_time,
+            end_time,
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        return response
+    } catch (error) {
+        throw error.response?.data || error.message
+    }
 }
 
 export function logout() {

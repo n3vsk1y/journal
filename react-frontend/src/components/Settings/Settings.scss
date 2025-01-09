@@ -36,12 +36,34 @@
 
 .close-button {
 	position: absolute;
-	top: 10px;
-	right: 10px;
+    top: 1.5rem;
+    right: 3rem;
+    padding: 5px 15px;
 	background: none;
 	border: none;
 	font-size: 1.5rem;
+    font-weight: 100;
 	cursor: pointer;
+    transition: transform 0.5s ease;
+
+    &:hover {
+        color: rgb(241, 133, 133);
+        transform: scale(1.5);
+    }
+}
+
+.setting-submit-button {
+    margin: 20px 0;
+}
+
+.setting-del-button:hover {
+    border: 1px solid;
+    color: rgb(250, 134, 134);
+    box-shadow: inset 0 0 20px #ff7474,
+        0 0 20px #ffffff17;
+    outline-color: rgba(255, 255, 255, 0);
+    outline-offset: 15px;
+    text-shadow: none;
 }
 
 .form-group {

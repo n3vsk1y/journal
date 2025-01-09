@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { setapikeys } from '../../Api'
+import { delApiKeys, setApiKeys } from '../../Api'
 import './Settings.scss'
 
 const Settings = ({ isOpen, onClose }) => {
@@ -18,7 +18,7 @@ const Settings = ({ isOpen, onClose }) => {
 		e.preventDefault()
 
 		try {
-			const response = await setapikeys(
+			const response = await setApiKeys(
 				formData.apikey,
 				formData.apisecret
 			)
@@ -34,6 +34,24 @@ const Settings = ({ isOpen, onClose }) => {
 			console.error('Ошибка при сохранении ключей:', error)
 		}
 	}
+
+    const handleDeleteKeys = async (e) => {
+        e.preventDefault()
+
+        try {
+			const response = await delApiKeys()
+			if (response.data.message === 'success') {
+                setError('')
+				onClose()
+			} else if (response.data.message === 'keys not found') {
+                setError('Ключи не найдены')
+			} else {
+                setError(response.data.message || 'Unknown error occurred')
+            }
+		} catch (error) {
+			console.error('Ошибка при сохранении ключей:', error)
+		}
+    }
 
     const handleClose = (e) => {
         e.preventDefault()
@@ -76,8 +94,11 @@ const Settings = ({ isOpen, onClose }) => {
 					<div className="input-wrapper">
 						<span>{key_error}</span>
 					</div>
-					<button type="submit" className="glow-button">
+					<button type="submit" className="glow-button setting-submit-button">
 						Сохранить
+					</button>
+					<button type="button" className="glow-button setting-del-button" onClick={handleDeleteKeys}>
+						Удалить ключи
 					</button>
 				</form>
 			</div>

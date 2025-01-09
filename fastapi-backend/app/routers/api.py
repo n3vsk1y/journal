@@ -1,12 +1,17 @@
+import json
 from datetime import datetime, timedelta, timezone
 from fastapi import APIRouter, HTTPException, Depends, Request
+
 from app.models.user import User
 from app.models.keys import APIKey
 from app.core.database import get_db
 from app.core.orm import get_user
+from app.core.bingx_request import get_trades
+
 from app.schemas.auth import LogInSchema, SignUpSchema
-from app.schemas.key import APIKeySchema
+from app.schemas.bingx import APIKeySchema, TradeRequestSchema
 from app.schemas.bio import BioSchema
+
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
 from sqlalchemy.future import select
@@ -150,3 +155,57 @@ async def save_settings(keys: APIKeySchema, db: Session = Depends(get_db), curre
         return {"message": "success"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to save settings: {e}")
+    
+
+@router.post("/delapikeys")
+async def save_settings(db: Session = Depends(get_db), current_user = Depends(get_user)):
+    try:
+        query = select(APIKey).filter(APIKey.user_id == current_user.id)
+        result = await db.execute(query)
+        api_keys = result.scalars().first()
+        if api_keys:
+            await db.delete(api_keys)
+            await db.commit()
+            return {"message": "success"}
+        return {"message": "keys not found"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to save settings: {e}")
+    
+
+@router.post("/gettrades")
+async def get_trades_from_exchange(filters: TradeRequestSchema, db: Session = Depends(get_db), current_user = Depends(get_user)):
+    try:
+        query = select(APIKey).where(APIKey.user_id == current_user.id)
+        result = await db.execute(query)
+        api_keys = result.scalars().first()
+
+        if not api_keys:
+            raise HTTPException(status_code=404, detail="API keys not found")
+        
+        print(filters.start_time * 1000)
+        print(filters.end_time * 1000)
+
+        trades = get_trades(
+            api_key=api_keys.api_key,
+            api_secret=api_keys.api_secret,
+            symbol=filters.symbol,
+            start_time=filters.start_time * 1000,
+            end_time=filters.end_time * 1000,
+        )
+
+        return {"message": "success", "data": trades}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch trades: {e}")
+    
+
+@router.post("/trades")
+async def get_trades_test(api_key: str, api_secret: str, symbol: str, start_time: int, end_time: int):
+    trades = get_trades(
+        api_key=api_key,
+        api_secret=api_secret,
+        symbol=symbol,
+        start_time=start_time * 1000,
+        end_time=end_time * 1000,
+    )
+
+    print(f'trades: {trades}')

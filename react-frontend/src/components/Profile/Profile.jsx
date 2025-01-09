@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useUser } from '../../providers/UserContext'
-import { setbio } from '../../Api'
+import { setBio } from '../../Api'
 import Header from '../Header/Header'
 import Settings from '../Settings/Settings'
 import Loading from '../Loading/Loading'
@@ -14,10 +14,7 @@ const Profile = () => {
 	const [isLoading, setIsLoading] = useState(true)
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false)
 	const [editableBio, setEditableBio] = useState(user?.bio || '')
-
-    console.log(user);
     
-
 	const toggleSettings = () => {
 		setIsSettingsOpen(!isSettingsOpen)
 	}
@@ -26,7 +23,7 @@ const Profile = () => {
 		e.preventDefault()
 
 		try {
-			await setbio({ new_bio: String(editableBio) })
+			await setBio({ new_bio: String(editableBio) })
 
 			updateUser({ bio: editableBio })
 		} catch (error) {

@@ -1,29 +1,51 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { jwtDecode } from 'jwt-decode'
-import Loading from '../components/Loading/Loading'
 
 const UserContext = createContext()
 
 export const useUser = () => useContext(UserContext)
 
 export const UserProvider = ({ children }) => {
-	const [user, setUser] = useState()
+	const [user, setUser] = useState(null)
 
-    useEffect(() => {
-        const token = localStorage.getItem('access_token')
-    
-        if (token) {
-            try {
-                const decoded = jwtDecode(token)
-                setUser(decoded.data)
-            } catch (error) {
-                console.error('Ошибка при декодировании токена:', error)
-                localStorage.removeItem('access_token')
-            }
-        }
-    }, [])    
+	useEffect(() => {
+		const token = localStorage.getItem('access_token')
+
+		if (token) {
+			try {
+				const decoded = jwtDecode(token)
+			} catch (error) {
+				console.error('Ошибка при декодировании токена:', error)
+				localStorage.removeItem('access_token')
+			}
+		} else {
+			const savedUserData = localStorage.getItem('user')
+			if (savedUserData) {
+				setUser(JSON.parse(savedUserData))
+			}
+		}
+	}, [])
+
+	const updateUser = (newData) => {
+		setUser((prevUser) => {
+			const updatedUser = { ...prevUser, ...newData }
+
+			localStorage.setItem('user', JSON.stringify(updatedUser))
+
+			return updatedUser
+		})
+	}
+
+	useEffect(() => {
+		const savedUserData = localStorage.getItem('user')
+		if (savedUserData) {
+			setUser(JSON.parse(savedUserData))
+		}
+	}, [])
 
 	return (
-		<UserContext.Provider value={{ user }}>{children}</UserContext.Provider>
+		<UserContext.Provider value={{ user, updateUser }}>
+			{children}
+		</UserContext.Provider>
 	)
 }

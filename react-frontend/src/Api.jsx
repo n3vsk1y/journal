@@ -56,6 +56,20 @@ export async function signup(email, username, password) {
 	}
 }
 
+export async function setbio(bio) {
+    try {
+        const token = localStorage.getItem('access_token')
+		const response = await apiClient.post('/setbio', { new_bio: bio.new_bio }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            })
+		return response
+	} catch (error) {
+		throw error.response.data
+	}
+}
+
 export async function setapikeys(apikey, apisecret) {
 	try {
         const token = localStorage.getItem('access_token')

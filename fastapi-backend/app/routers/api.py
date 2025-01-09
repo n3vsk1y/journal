@@ -6,6 +6,7 @@ from app.core.database import get_db
 from app.core.orm import get_user
 from app.schemas.auth import LogInSchema, SignUpSchema
 from app.schemas.key import APIKeySchema
+from app.schemas.bio import BioSchema
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
 from sqlalchemy.future import select
@@ -121,21 +122,24 @@ async def refresh_token(request: Request):
         raise HTTPException(status_code=401, detail=str(e))
 
 
-@router.get("/check_api_keys")
-async def check_api_keys(db: Session = Depends(get_db), current_user = Depends(get_user)):
-    query = select(APIKey).where(APIKey.user_id==current_user.id)
-    result = await db.execute(query)
-    api_keys = result.scalars().first()
-    if not api_keys:
-        return {"exist": False}
-    return {"exist": True, "api_key": api_keys.api_key, "api_secret": api_keys.api_secret}
-
+@router.post("/setbio")
+async def save_bio(bio_update: BioSchema, db: Session = Depends(get_db), current_user = Depends(get_user)):
+    try:
+        current_user.bio = bio_update.new_bio
+        await db.commit()
+        await db.refresh(current_user)
+        return {"message": "success"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to save settings: {e}")
+    
 
 @router.post("/setapikeys")
 async def save_settings(keys: APIKeySchema, db: Session = Depends(get_db), current_user = Depends(get_user)):
     try:
-        is_exist = await check_api_keys(db=db, current_user=current_user)
-        if is_exist['exist']:
+        query = select(APIKey).where(APIKey.user_id==current_user.id)
+        result = await db.execute(query)
+        api_keys = result.scalars().first()
+        if api_keys:
             return {"message": "Keys already exist"}
 
         new_keys = APIKey(user_id=current_user.id, api_key=keys.apikey, api_secret=keys.apisecret)

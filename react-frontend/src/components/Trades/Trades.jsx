@@ -74,6 +74,7 @@ const Trades = () => {
 				<div className="trades-header">
 					<span>ID</span>
 					<span>Тикер</span>
+                    <span>Сторона</span>
 					<span>Дата открытия</span>
 					<span>Дата закрытия</span>
 					<span>Прибыль</span>

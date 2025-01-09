@@ -16,6 +16,7 @@ const TradeRow = ({ trade, isOpen, toggleTrade }) => {
 			<div className="trade-summary" onClick={toggleTrade}>
 				<span>{trade.positionId}</span>
 				<span>{trade.symbol}</span>
+                <span>{trade.positionSide}</span>
 				<span>{new Date(trade.openTime).toLocaleString()}</span>
 				<span>{new Date(trade.updateTime).toLocaleString()}</span>
 				<span
@@ -39,6 +40,7 @@ const TradeRow = ({ trade, isOpen, toggleTrade }) => {
 				ref={detailsRef}
 				className="trade-details"
 				style={{
+	                height: '0',
 					overflow: 'hidden',
 					transition: 'height 0.4s ease-out',
 				}}
@@ -70,8 +72,8 @@ const TradeRow = ({ trade, isOpen, toggleTrade }) => {
 						<p>{trade.avgPrice} $</p>
 						<p>{trade.avgClosePrice} $</p>
 						<p>{trade.realisedProfit} $</p>
-						<p>{trade.positionCommission} $</p>
-						<p>{trade.totalFunding} $</p>
+						<p>{parseFloat(trade.positionCommission).toFixed(3)} $</p>
+						<p>{parseFloat(trade.totalFunding).toFixed(5)} $</p>
 					</div>
 
 					<div className="trade-chart">

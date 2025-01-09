@@ -71,7 +71,6 @@ const Trades = () => {
 		<div>
 			<Header />
 			<div className="trade-list">
-				{/* Заголовки таблицы */}
 				<div className="trades-header">
 					<span>ID</span>
 					<span>Тикер</span>
@@ -81,7 +80,6 @@ const Trades = () => {
 					<span>Объем</span>
 				</div>
 
-				{/* Список сделок */}
 				{trades.map((trade) => (
 					<Trade
 						key={trade.positionId}

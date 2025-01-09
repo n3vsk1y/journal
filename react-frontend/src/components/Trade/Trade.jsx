@@ -13,7 +13,6 @@ const TradeRow = ({ trade, isOpen, toggleTrade }) => {
 
 	return (
 		<div className="trade-row">
-			{/* Основная строка */}
 			<div className="trade-summary" onClick={toggleTrade}>
 				<span>{trade.positionId}</span>
 				<span>{trade.symbol}</span>
@@ -30,28 +29,54 @@ const TradeRow = ({ trade, isOpen, toggleTrade }) => {
 				>
 					{parseFloat(trade.netProfit).toFixed(2)} $
 				</span>
-				<span>{trade.positionAmt} $</span>
+				<span>
+					{parseFloat(trade.positionAmt * trade.avgPrice).toFixed(2)}{' '}
+					$
+				</span>
 			</div>
 
-			{/* Детали сделки */}
 			<div
 				ref={detailsRef}
 				className="trade-details"
 				style={{
 					overflow: 'hidden',
-					transition: 'height 0.3s ease-out',
+					transition: 'height 0.4s ease-out',
 				}}
 			>
-				<div className="trade-info">
-					<p>Плечо: x{trade.leverage}</p>
-					<p>Средняя цена открытия: {trade.avgPrice} $</p>
-					<p>Средняя цена закрытия: {trade.avgClosePrice} $</p>
-					<p>Реализованная прибыль: {trade.realisedProfit} $</p>
-					<p>Комиссия: {trade.positionCommission} $</p>
-					<p>Фандинг: {trade.totalFunding} $</p>
-				</div>
-				<div className="trade-chart">
-					<p>График</p>
+				<div className="trade-grid">
+					<div className="trade-info">
+						<p>
+							<b>Плечо:</b>
+						</p>
+						<p>
+							<b>Средняя цена открытия:</b>
+						</p>
+						<p>
+							<b>Средняя цена закрытия:</b>
+						</p>
+						<p>
+							<b>Реализованная прибыль:</b>
+						</p>
+						<p>
+							<b>Комиссия:</b>
+						</p>
+						<p>
+							<b>Фандинг:</b>
+						</p>
+					</div>
+
+					<div className="trade-values">
+						<p>x{trade.leverage}</p>
+						<p>{trade.avgPrice} $</p>
+						<p>{trade.avgClosePrice} $</p>
+						<p>{trade.realisedProfit} $</p>
+						<p>{trade.positionCommission} $</p>
+						<p>{trade.totalFunding} $</p>
+					</div>
+
+					<div className="trade-chart">
+						<p>График</p>
+					</div>
 				</div>
 			</div>
 		</div>

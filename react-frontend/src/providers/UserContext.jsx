@@ -14,6 +14,7 @@ export const UserProvider = ({ children }) => {
 		if (token) {
 			try {
 				const decoded = jwtDecode(token)
+                updateUser(decoded?.data)
 			} catch (error) {
 				console.error('Ошибка при декодировании токена:', error)
 				localStorage.removeItem('access_token')
@@ -35,13 +36,6 @@ export const UserProvider = ({ children }) => {
 			return updatedUser
 		})
 	}
-
-	useEffect(() => {
-		const savedUserData = localStorage.getItem('user')
-		if (savedUserData) {
-			setUser(JSON.parse(savedUserData))
-		}
-	}, [])
 
 	return (
 		<UserContext.Provider value={{ user, updateUser }}>

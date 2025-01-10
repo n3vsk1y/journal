@@ -122,4 +122,5 @@ export async function getTrades(symbol, start_time, end_time) {
 export function logout() {
 	delete apiClient.defaults.headers.common['Authorization']
     localStorage.removeItem('access_token')
+    localStorage.removeItem('user')
 }

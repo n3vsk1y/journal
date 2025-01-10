@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { getTrades } from '../../Api'
+
 import Header from '../Header/Header'
 import Trade from '../Trade/Trade'
 import './Trades.css'

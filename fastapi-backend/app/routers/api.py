@@ -181,9 +181,6 @@ async def get_trades_from_exchange(filters: TradeRequestSchema, db: Session = De
 
         if not api_keys:
             raise HTTPException(status_code=404, detail="API keys not found")
-        
-        print(filters.start_time * 1000)
-        print(filters.end_time * 1000)
 
         trades = get_trades(
             api_key=api_keys.api_key,

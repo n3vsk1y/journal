@@ -31,8 +31,7 @@ const TradeRow = ({ trade, isOpen, toggleTrade }) => {
 					{parseFloat(trade.netProfit).toFixed(2)} $
 				</span>
 				<span>
-					{parseFloat(trade.positionAmt * trade.avgPrice).toFixed(2)}{' '}
-					$
+					{parseFloat(trade.positionAmt * trade.avgPrice).toFixed(2)}{' '}$
 				</span>
 			</div>
 

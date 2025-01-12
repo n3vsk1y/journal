@@ -116,6 +116,7 @@ button:hover {
     text-shadow: none;
     font-weight: bold;
     transition: all 1.25s cubic-bezier(0.19, 1, 0.22, 1);
+    user-select: none;
 }
 
 .glow-button:hover {

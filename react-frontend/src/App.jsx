@@ -10,6 +10,7 @@ import Trades from './components/Trades/Trades'
 import Resources from './components/Resources/Resources'
 import Profile from './components/Profile/Profile'
 import Loading from './components/Loading/Loading'
+import Psychology from './components/Resources/Psychology'
 
 import { UserProvider } from './providers/UserContext'
 import ProtectedRoute from './providers/ProtectedRoute'
@@ -102,6 +103,17 @@ function AppRotes() {
                             <title>Загрузка...</title>
                         </Helmet>
                         <Loading endpoint="/dashboard"/>
+                    </>
+                }
+            />
+            <Route
+                path="/psychology"
+                element={
+                    <>
+                        <Helmet>
+                            <title>Психология</title>
+                        </Helmet>
+                        <Psychology />
                     </>
                 }
             />

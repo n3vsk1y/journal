@@ -20,7 +20,7 @@ const SignUpScreen = () => {
 			localStorage.setItem('access_token', response.access_token)
 			console.log('%c' + 'Success SIGNUP', 'color:' + 'green')
 			setError('')
-			navigate('/dashboard')
+			navigate('/loading')
 		} catch (err) {
 			console.error('Error during signup:', err)
 			if (Array.isArray(err.detail)) {
@@ -36,7 +36,7 @@ const SignUpScreen = () => {
 		<div className="content-div">
 			<h1>Sign Up</h1>
 			<form onSubmit={handleSignup}>
-				<div class="input-wrapper">
+				<div className="input-wrapper">
 					<input
 						type="email"
 						placeholder="Email"
@@ -44,9 +44,9 @@ const SignUpScreen = () => {
 						onChange={(e) => setEmail(e.target.value)}
 						required
 					/>
-					<span class="focus-border"></span>
+					<span className="focus-border"></span>
 				</div>
-				<div class="input-wrapper">
+				<div className="input-wrapper">
 					<input
 						type="text"
 						placeholder="Username"
@@ -54,9 +54,9 @@ const SignUpScreen = () => {
 						onChange={(e) => setUsername(e.target.value)}
 						required
 					/>
-					<span class="focus-border"></span>
+					<span className="focus-border"></span>
 				</div>
-				<div class="input-wrapper">
+				<div className="input-wrapper">
 					<input
 						type="password"
 						placeholder="Password"
@@ -64,7 +64,7 @@ const SignUpScreen = () => {
 						onChange={(e) => setPassword(e.target.value)}
 						required
 					/>
-					<span class="focus-border"></span>
+					<span className="focus-border"></span>
 				</div>
 				<button className="submit glow-button" type="submit">
 					Sign Up
@@ -72,8 +72,8 @@ const SignUpScreen = () => {
 			</form>
 			<button className="back-button" onClick={() => navigate('/')}>
 				back
-				<span class="right"></span>
-				<span class="left"></span>
+				<span className="right"></span>
+				<span className="left"></span>
 			</button>
 			<div className="input-wrapper">
 				<span>{error}</span>

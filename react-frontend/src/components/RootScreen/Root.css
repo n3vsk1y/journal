@@ -23,6 +23,7 @@
     text-decoration: none;
     color: #fff;
     text-shadow: 0 0 0.5rem currentColor;
+    user-select: none;
 }
 
 .neon-button {
@@ -40,6 +41,7 @@
     background-color: var(--logo-color);
     transition: background-color 0.2s ease;
     animation: neon-flicker 1.5s infinite alternate, neon-glow 2s infinite alternate;
+    user-select: none;
 }
 
 .neon-button::before {

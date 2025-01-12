@@ -1,0 +1,54 @@
+/* Основной контейнер */
+.resources-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-rows: repeat(2, 1fr);
+	gap: 40px;
+	padding: 40px;
+	height: calc(100vh - 3.8rem);
+	box-sizing: border-box;
+}
+
+.res-h3 {
+	font-size: 3rem;
+	font-weight: bold;
+	text-align: center;
+	text-shadow: 0 2px 100px rgb(0, 0, 0), 0 2px 20px rgb(0, 0, 0);
+	user-select: none;
+}
+
+.resource-block {
+	position: relative;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	border-radius: 10px;
+	overflow: hidden;
+	cursor: pointer;
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.resource-block:hover {
+	transform: scale(1.03);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+.resource-block .overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.4);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: background-color 0.3s ease;
+}
+
+.resource-block:hover .overlay {
+	background-color: rgba(0, 0, 0, 0.6);
+}
+
+
+

@@ -10,6 +10,15 @@ load_dotenv()
 
 API_URL = "https://open-api.bingx.com"
 
+def get_server_time():
+    payload = {}
+    path = '/openApi/swap/v2/server/time'
+    method = "GET"
+    paramsMap = dict()
+    paramsStr = parseParam(paramsMap)
+    response = send_request(method, path, paramsStr, payload)
+    return response["data"]["serverTime"]
+
 
 def get_trades(api_key: str, api_secret: str, symbol: str, start_time: int, end_time: int = int(time.time() * 1000)):
     payload = {}
@@ -17,8 +26,8 @@ def get_trades(api_key: str, api_secret: str, symbol: str, start_time: int, end_
     method = "GET"
     params = {
         'symbol': symbol + '-USDT',
-        'startTime': str(start_time),
-        'endTime': str(end_time),
+        'startTs': str(start_time),
+        'endTs': str(end_time),
     }
 
     params_str = parse_param(params)
@@ -52,6 +61,6 @@ def parse_param(paramsMap):
     sorted_keys = sorted(paramsMap)
     params_str = "&".join(["%s=%s" % (x, paramsMap[x]) for x in sorted_keys])
     if params_str != "":
-        return params_str+"&timestamp="+str(int(time.time() * 1000))
+        return params_str + "&timestamp="+str(int(time.time() * 1000))
     else:
-        return params_str+"timestamp="+str(int(time.time() * 1000))
+        return params_str + "timestamp="+str(int(time.time() * 1000))

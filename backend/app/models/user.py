@@ -16,4 +16,3 @@ class User(Base):
 
     apikey = relationship('APIKey', uselist=False, back_populates='user')
 
-

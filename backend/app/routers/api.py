@@ -24,25 +24,9 @@ from fastapi.responses import JSONResponse
 router = APIRouter(prefix='/api', tags=['API'])
 
 
-@router.post('/login')
-async def login(data: LogInSchema, db: Session = Depends(get_db)):
-    query = select(User).where(User.username == data.username)
-    result = await db.execute(query)
-    user = result.scalars().first()
-    if not user or not verify_password(data.password, user.hashed_password):
-        raise HTTPException(
-            status_code=404, detail='Invalid username or password')
-
-    data={
-        'user_id': str(user.id),
-        'email': user.email, 
-        'username': user.username,
-        'bio': user.bio,
-        'avatar_url': user.avatar_url,
-    }
-
-    access_token = create_access_token(data=data)
-    refresh_token = create_refresh_token(data=data)
+def create_response_with_tokens(user_data: dict):
+    access_token = create_access_token(data=user_data)
+    refresh_token = create_refresh_token(data=user_data)
 
     response = JSONResponse(content={
         'access_token': access_token,
@@ -57,12 +41,32 @@ async def login(data: LogInSchema, db: Session = Depends(get_db)):
         httponly=True,
         secure=True,
         samesite="None",
-        max_age=30 * 24 * 60 * 60, # кука живет 30 дней
+        max_age=30 * 24 * 60 * 60,  # кука живет 30 дней
         expires=expires,
         path="/",
     )
 
     return response
+
+
+@router.post('/login')
+async def login(data: LogInSchema, db: Session = Depends(get_db)):
+    query = select(User).where(User.username == data.username)
+    result = await db.execute(query)
+    user = result.scalars().first()
+    if not user or not verify_password(data.password, user.hashed_password):
+        raise HTTPException(
+            status_code=404, detail='Invalid username or password')
+
+    user_data = {
+        'user_id': str(user.id),
+        'email': user.email,
+        'username': user.username,
+        'bio': user.bio,
+        'avatar_url': user.avatar_url,
+    }
+
+    return create_response_with_tokens(user_data)
 
 
 @router.post('/signup')
@@ -80,36 +84,15 @@ async def signup(data: SignUpSchema, db: Session = Depends(get_db)):
     await db.commit()
     await db.refresh(new_user)
 
-    data={
+    user_data = {
         'user_id': str(new_user.id),
-        'email': new_user.email, 
+        'email': new_user.email,
         'username': new_user.username,
         'bio': new_user.bio,
         'avatar_url': new_user.avatar_url,
     }
 
-    access_token = create_access_token(data=data)
-    refresh_token = create_refresh_token(data=data)
-
-    response = JSONResponse(content={
-        'access_token': access_token,
-        'token_type': 'bearer',
-    })
-
-    expires = datetime.now(timezone.utc) + timedelta(days=30)
-
-    response.set_cookie(
-        key="refresh_token",
-        value=refresh_token,
-        httponly=True,
-        secure=True,
-        samesite="None",
-        max_age=30 * 24 * 60 * 60, # кука живет 30 дней
-        expires=expires,
-        path="/",
-    )
-
-    return response
+    return create_response_with_tokens(user_data)
 
 
 @router.post('/refresh')
@@ -141,7 +124,7 @@ async def save_bio(bio_update: BioSchema, db: Session = Depends(get_db), current
 @router.post("/setapikeys")
 async def save_settings(keys: APIKeySchema, db: Session = Depends(get_db), current_user = Depends(get_user)):
     try:
-        query = select(APIKey).where(APIKey.user_id==current_user.id)
+        query = select(APIKey).where(APIKey.user_id == current_user.id)
         result = await db.execute(query)
         api_keys = result.scalars().first()
         if api_keys:
@@ -158,7 +141,7 @@ async def save_settings(keys: APIKeySchema, db: Session = Depends(get_db), curre
     
 
 @router.post("/delapikeys")
-async def save_settings(db: Session = Depends(get_db), current_user = Depends(get_user)):
+async def delete_api_keys(db: Session = Depends(get_db), current_user=Depends(get_user)):
     try:
         query = select(APIKey).filter(APIKey.user_id == current_user.id)
         result = await db.execute(query)
@@ -169,11 +152,11 @@ async def save_settings(db: Session = Depends(get_db), current_user = Depends(ge
             return {"message": "success"}
         return {"message": "keys not found"}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to save settings: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to delete API keys: {e}")
     
 
 @router.post("/gettrades")
-async def get_trades_from_exchange(filters: TradeRequestSchema, db: Session = Depends(get_db), current_user = Depends(get_user)):
+async def get_trades_from_exchange(filters: TradeRequestSchema, db:  Session = Depends(get_db), current_user = Depends(get_user)):
     try:
         query = select(APIKey).where(APIKey.user_id == current_user.id)
         result = await db.execute(query)

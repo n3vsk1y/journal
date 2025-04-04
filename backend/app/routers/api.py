@@ -170,7 +170,7 @@ async def save_settings(db: Session = Depends(get_db), current_user = Depends(ge
         return {"message": "keys not found"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to save settings: {e}")
-    
+
 
 @router.post("/gettrades")
 async def get_trades_from_exchange(filters: TradeRequestSchema, db: Session = Depends(get_db), current_user = Depends(get_user)):
@@ -193,7 +193,7 @@ async def get_trades_from_exchange(filters: TradeRequestSchema, db: Session = De
         return {"message": "success", "data": trades}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch trades: {e}")
-    
+
 
 @router.post("/trades")
 async def get_trades_test(api_key: str, api_secret: str, symbol: str, start_time: int, end_time: int):

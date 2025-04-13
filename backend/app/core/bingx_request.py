@@ -10,7 +10,7 @@ def get_server_time():
     path = '/openApi/swap/v2/server/time'
     method = "GET"
     paramsMap = dict()
-    paramsStr = parseParam(paramsMap)
+    paramsStr = parse_param(paramsMap)
     response = send_request(method, path, paramsStr, payload)
     return response["data"]["serverTime"]
 

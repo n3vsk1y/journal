@@ -24,7 +24,7 @@ def get_trades(api_key: str, api_secret: str, symbol: str, start_time: int, end_
         "startTs": start_time,
         "endTs": get_server_time() if end_time is None else end_time,
     }
-    paramsStr = parseParam(paramsMap)
+    paramsStr = parse_param(paramsMap)
     return send_request(method, path, paramsStr, payload, api_key, api_secret)
 
 
@@ -43,7 +43,7 @@ def send_request(method, path, urlpa, payload, APIKEY, SECRETKEY):
     return response.json()
 
 
-def parseParam(paramsMap):
+def parse_param(paramsMap):
     sortedKeys = sorted(paramsMap)
     paramsStr = "&".join(["%s=%s" % (x, paramsMap[x]) for x in sortedKeys])
     if paramsStr != "":

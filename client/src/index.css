@@ -28,7 +28,8 @@
 
     --input-bg: #030e22;
 
-    --red: rgb(235, 80, 80);
+    --red: rgb(212, 66, 66);
+    --green: rgb(66, 221, 66);
 }
 
 [theme-mode="light"] {
@@ -45,8 +46,6 @@
     --bg-text: #a7a7a7;
 
     --input-bg: #187c96;
-
-    --red: rgb(250, 152, 152);
 }
 
 * {

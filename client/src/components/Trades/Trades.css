@@ -60,7 +60,7 @@
 
 .trade-grid {
 	display: grid;
-	grid-template-columns: 1fr 1fr 5fr; 
+	grid-template-columns: 1fr 1fr 4fr; 
 	gap: 10px;
 	align-items: start;
     padding: 10px;
@@ -76,15 +76,19 @@
 	margin: 0;
 }
 
-.trade-chart {
+/* .trade-chart {
 	height: 200px;
-	background: #040a29;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	font-size: 14px;
 	border-radius: 10px;
+} */
+.trade-chart {
+    width: 100%;
+    box-sizing: border-box;
 }
+
 
 .negative {
 	color: rgb(212, 66, 66);

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { getTrades } from '../../Api'
 
 import Header from '../Header/Header'
-import Trade from '../Trade/Trade'
+import Trade from './src/Trade'
 import './Trades.css'
 
 const Trades = () => {
@@ -14,6 +14,10 @@ const Trades = () => {
 		startDate: '',
 		endDate: '',
 	})
+    const now = new Date();
+    const ninetyDaysAgo = new Date(now.getTime() - 89 * 24 * 60 * 60 * 1000);
+    const minDate = ninetyDaysAgo.toISOString().slice(0, 10);
+    const maxDate = now.toISOString().slice(0, 10);
 
 	const toggleTrade = (tradeId) => {
 		setOpenTradeId(openTradeId === tradeId ? null : tradeId)
@@ -87,21 +91,26 @@ const Trades = () => {
 						value={filters.symbol}
 						onChange={handleSymbolInput}
 						spellCheck="false"
+                        required
 					/>
 					<input
-						type="datetime-local"
+						type="date"
 						name="startDate"
 						placeholder="Стартовая дата"
 						value={filters.startDate}
 						onChange={handleFilterChange}
+                        min={minDate}
+                        max={maxDate}
 						required
 					/>
 					<input
-						type="datetime-local"
+						type="date"
 						name="endDate"
 						placeholder="Конечная дата"
 						value={filters.endDate}
 						onChange={handleFilterChange}
+                        min={minDate}
+                        max={maxDate}
 					/>
 					<button
 						onClick={applyFilters}

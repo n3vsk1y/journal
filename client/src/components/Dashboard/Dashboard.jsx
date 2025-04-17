@@ -7,7 +7,7 @@ import Time from './src/Time'
 import PnL from './src/PnL'
 import PieChart from './src/LS'
 import Plus from './src/Plus'
-import Index from './src/Index'
+import FearGreedIndex from './src/FearGreedIndex'
 import Minus from './src/Minus'
 
 
@@ -26,20 +26,22 @@ const Dashboard = () => {
                     <div className="grid-item"><Balance /></div>
                     <div className="grid-item"><Volume /></div>
                     <div className="grid-item green-border">
-                        <span className="">Распределение по Long ⁄ Short</span>
+                        <span className="bold-header">Распределение по Long ⁄ Short</span>
                         <div className="chart">
-                            <PieChart long={50} />
+                            <PieChart long={80} />
                         </div>
                         <span>
                             <span className="ls short">50</span>
-                            
                             <span className="ls long">50</span>
                         </span>
                     </div>
                     <div className="grid-item"><Plus /></div>
                     <div className="grid-item"><PnL  /></div>
                     <div className="grid-item"><Minus /></div>
-                    <div className="grid-item"><Index /></div>
+                    <div className="grid-item">
+                        <span className="bold-header">Индекс страха ⁄ жадности</span>
+                        <FearGreedIndex />
+                    </div>
                     <div className="grid-item"><Time /></div>
                 </div>
 			</main>

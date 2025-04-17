@@ -1,0 +1,50 @@
+.time-container {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	width: 100%;
+}
+
+.current-time {
+	font-size: 1.6rem;
+	font-weight: bold;
+	/* color: #00c851; */
+}
+
+.exchanges-list {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 12px;
+}
+
+.exchange-item {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 1.1rem;
+	padding: 8px;
+	background: rgba(0, 0, 0, 0.2);
+	border-radius: 6px;
+}
+
+.exchange-symbol {
+	font-size: 1.3rem;
+}
+
+.exchange-name {
+	flex: 1;
+	text-align: left;
+	font-weight: 500;
+}
+
+.exchange-time {
+	font-family: monospace;
+}
+
+.exchange-status.open {
+	color: #00c851;
+}
+
+.exchange-status.closed {
+	color: #ff4444;
+}

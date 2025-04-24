@@ -88,7 +88,8 @@ const TradeRow = ({ trade, isOpen, toggleTrade }) => {
                     </div>
 
                     <div className="trade-chart">
-                        {loading && <div className="chart-loading">Loading chart...</div>}
+                        Chart
+                        {/* {loading && <div className="chart-loading">Loading chart...</div>}
                         {error && <div className="chart-error">{error}</div>}
                         {processedData && !loading && !error && (
                             <TradeChart
@@ -105,7 +106,7 @@ const TradeRow = ({ trade, isOpen, toggleTrade }) => {
                                 stopLoss={processedData.stopLoss}
                                 takeProfit={processedData.takeProfit}
                             />
-                        )}
+                        )} */}
                     </div>
                 </div>
             </div>

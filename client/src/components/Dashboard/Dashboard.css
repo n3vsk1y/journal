@@ -1,7 +1,7 @@
 .dashboard-content {
 	display: grid;
 	grid-template-rows: auto 1fr;
-	gap: 2rem;
+	gap: 1.5rem;
 	padding: 2rem 5rem;
 	height: calc(100vh - 3.8rem);
 	box-sizing: border-box;
@@ -43,7 +43,7 @@ header h1 {
 }
 
 .grid-item:nth-child(n) > b {
-	font-size: 3rem;
+	font-size: 2.5rem;
 }
 
 .grid-item:nth-child(1) {
@@ -107,12 +107,12 @@ header h1 {
 }
 
 .green-border {
-	color: var(--green);
+	/* color: var(--green); */
 	border: solid 1px var(--green);
 }
 
 .red-border {
-	color: var(--red);
+	/* color: var(--red); */
 	border: solid 1px var(--red);
 }
 

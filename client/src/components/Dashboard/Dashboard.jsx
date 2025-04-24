@@ -28,11 +28,11 @@ const Dashboard = () => {
                     <div className="grid-item green-border">
                         <span className="bold-header">Распределение по Long ⁄ Short</span>
                         <div className="chart">
-                            <PieChart long={80} />
+                            <PieChart long={60} />
                         </div>
                         <span>
-                            <span className="ls short">50</span>
-                            <span className="ls long">50</span>
+                            <span className="ls short">40</span>
+                            <span className="ls long">60</span>
                         </span>
                     </div>
                     <div className="grid-item"><Plus /></div>

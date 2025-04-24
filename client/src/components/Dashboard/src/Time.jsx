@@ -5,7 +5,6 @@ const Time = () => {
 	const [time, setTime] = useState(new Date())
 	const [exchanges, setExchanges] = useState([])
 
-	// Конфигурация бирж
 	const exchangeConfig = [
 		{
 			name: 'NYSE',

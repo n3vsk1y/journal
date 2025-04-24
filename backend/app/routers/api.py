@@ -165,7 +165,7 @@ async def get_trades_from_exchange(filters: TradeRequestSchema, db:  Session = D
         if not api_keys:
             raise HTTPException(status_code=404, detail="API keys not found")
 
-        trades = get_trades(
+        trades = await get_trades(
             api_key=api_keys.api_key,
             api_secret=api_keys.api_secret,
             symbol=filters.symbol,
@@ -180,7 +180,7 @@ async def get_trades_from_exchange(filters: TradeRequestSchema, db:  Session = D
 
 @router.post("/trades")
 async def get_trades_test(api_key: str, api_secret: str, symbol: str, start_time: int, end_time: int):
-    trades = get_trades(
+    trades = await get_trades(
         api_key=api_key,
         api_secret=api_secret,
         symbol=symbol,

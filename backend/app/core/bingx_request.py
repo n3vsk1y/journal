@@ -5,37 +5,37 @@ import requests
 
 API_URL = "https://open-api.bingx.com"
 
-def get_server_time():
+async def get_server_time():
     payload = {}
     path = '/openApi/swap/v2/server/time'
     method = "GET"
     paramsMap = dict()
-    paramsStr = parse_param(paramsMap)
-    response = send_request(method, path, paramsStr, payload)
+    paramsStr = await parse_param(paramsMap)
+    response = await send_request(method, path, paramsStr, payload)
     return response["data"]["serverTime"]
 
 
-def get_trades(api_key: str, api_secret: str, symbol: str, start_time: int, end_time: int=None):
+async def get_trades(api_key: str, api_secret: str, symbol: str, start_time: int, end_time: int=None):
     payload = {}
     path = '/openApi/swap/v1/trade/positionHistory'
     method = "GET"
     paramsMap = {
         "symbol": symbol + '-USDT',
         "startTs": start_time,
-        "endTs": get_server_time() if end_time is None else end_time,
+        "endTs": await get_server_time() if end_time is None else end_time,
     }
-    paramsStr = parse_param(paramsMap)
-    return send_request(method, path, paramsStr, payload, api_key, api_secret)
+    paramsStr = await parse_param(paramsMap)
+    return await send_request(method, path, paramsStr, payload, api_key, api_secret)
 
 
-def get_sign(api_secret, payload):
+async def get_sign(api_secret, payload):
     signature = hmac.new(api_secret.encode("utf-8"),
                          payload.encode("utf-8"), digestmod=sha256).hexdigest()
     return signature
 
 
-def send_request(method, path, urlpa, payload, APIKEY, SECRETKEY):
-    url = f'https://open-api.bingx.com{path}?{urlpa}&signature={get_sign(SECRETKEY, urlpa)}'
+async def send_request(method, path, urlpa, payload, APIKEY, SECRETKEY):
+    url = f'https://open-api.bingx.com{path}?{urlpa}&signature={await get_sign(SECRETKEY, urlpa)}'
     headers = {
         'X-BX-APIKEY': APIKEY,
     }
@@ -43,7 +43,7 @@ def send_request(method, path, urlpa, payload, APIKEY, SECRETKEY):
     return response.json()
 
 
-def parse_param(paramsMap):
+async def parse_param(paramsMap):
     sortedKeys = sorted(paramsMap)
     paramsStr = "&".join(["%s=%s" % (x, paramsMap[x]) for x in sortedKeys])
     if paramsStr != "":

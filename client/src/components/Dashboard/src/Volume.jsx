@@ -1,7 +1,7 @@
 const Volume = () => {
 	return (
 		<>
-			<b>$ 917.01</b>
+			<b>$ 4,583.81</b>
 			<span className="secondary-text">Объем</span>
 		</>
 	)

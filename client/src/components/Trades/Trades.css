@@ -76,18 +76,18 @@
 	margin: 0;
 }
 
-/* .trade-chart {
+.trade-chart {
 	height: 200px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	font-size: 14px;
 	border-radius: 10px;
-} */
-.trade-chart {
+}
+/* .trade-chart {
     width: 100%;
     box-sizing: border-box;
-}
+} */
 
 
 .negative {

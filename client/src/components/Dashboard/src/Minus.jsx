@@ -1,8 +1,8 @@
 const Minus = () => {
 	return (
 		<>
-            <b>2.445</b>
-			<span className="secondary-text">Средняя плюсовая сделка</span>
+            <b>0.53</b>
+            <span className="secondary-text">Средняя минусовая сделка</span>
 		</>
 	)
 }

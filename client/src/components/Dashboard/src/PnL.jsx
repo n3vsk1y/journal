@@ -1,8 +1,8 @@
 const PnL = () => {
 	return (
 		<>
-            <b>$ 117.99</b>
-            <span className="secondary-text">Совокупная прибыль</span>
+            <b>$ 97.71</b>
+            <span className="secodary-text">Совокупная прибыль</span>
 		</>
 	)
 }

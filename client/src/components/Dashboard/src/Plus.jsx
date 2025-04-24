@@ -1,8 +1,8 @@
 const Plus = () => {
 	return (
 		<>
-            <b>2.445</b>
-			<span className="secondary-text">Средняя плюсовая сделка</span>
+            <b>2.455</b>
+            <span className="secondary-text">Средняя плюсовая сделка</span>
 		</>
 	)
 }

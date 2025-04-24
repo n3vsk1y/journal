@@ -2,8 +2,6 @@ import React, { useRef, useState, useEffect } from 'react';
 import TradeChart from './TradeChart';
 
 const TradeRow = ({ trade, isOpen, toggleTrade }) => {
-    console.log('✅✅✅✅✅✅')
-    console.log(trade)
     const detailsRef = useRef(null);
     const [processedData, setProcessedData] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -88,8 +86,11 @@ const TradeRow = ({ trade, isOpen, toggleTrade }) => {
                     </div>
 
                     <div className="trade-chart">
-                        Chart
-                        {/* {loading && <div className="chart-loading">Loading chart...</div>}
+						<p>График</p>
+					</div>
+
+                    {/* <div className="trade-chart">
+                        {loading && <div className="chart-loading">Loading chart...</div>}
                         {error && <div className="chart-error">{error}</div>}
                         {processedData && !loading && !error && (
                             <TradeChart
@@ -106,8 +107,8 @@ const TradeRow = ({ trade, isOpen, toggleTrade }) => {
                                 stopLoss={processedData.stopLoss}
                                 takeProfit={processedData.takeProfit}
                             />
-                        )} */}
-                    </div>
+                        )}
+                    </div> */}
                 </div>
             </div>
         </div>
